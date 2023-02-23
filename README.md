@@ -20,4 +20,4 @@ Projeto construído, em 02/2023.
 
 ## 💛 Contato
 
-[🔗 Contato : Talilo ](https://linktr.ee/talilo.tarlison)
+[🔗 Linktr](https://linktr.ee/talilo.tarlison)
