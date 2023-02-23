@@ -1,15 +1,14 @@
 # vs-code clone
 
-
 #  Ace Editor
 ### EDITOR DE CODIGO ONLINE by Talilo
 ![preview](view.png)
 
->Meu Portfólio Completo, com mudança de tema
+>Meu Portfólio Completo, com mudança de tema troca de fundo, salve e open file
 
 Projeto construído, em 02/202.
 
-[🔗 Clique aqui para acessar](https://talilotarlison.github.io/coderfinal/)
+[🔗 Clique aqui para acessar](https://talilotarlison.github.io/vscode/)
 
 
 ## 🛠 Tecnologias
