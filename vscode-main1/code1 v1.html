@@ -15,13 +15,14 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.6/ext-beautify.js"></script>
     <style>
         body {font-family: 'Roboto', sans-serif;
-            background-color: #fff;
+            background-color: #474a51;
+			color: white;
         }
 		
         #editor {
 		  position: relative;
-		  width: 90vw;
-		  height: 600px;
+		  width: 94vw;
+		  height: 85vh;
 		}
 
 		#exportar { 
@@ -30,7 +31,7 @@
 		position:absolute;
 		width: 800px;
 		height: 600px;
-		top: 100px;
+		top: 70px;
 		right: 170px;
 		background-color: #f1f0f2;
 		padding: 20px;
@@ -77,7 +78,7 @@
 		margin: 10px;
 		}
 		#salvar_final{
-		background-color:#191673;
+		background-color:#007fff;
 		font-size: 25px;
 		color: white;
 		border: none;
@@ -107,15 +108,16 @@
 		trasition: 0.5;
 		}
 		.logo > img{
-		width: 40px;
+		width: 20px;
+		margin: 20px 15px; 
 		}
 		.logo > i:hover{
-		color: blue; 
+		color: #007fff; 
 		}
 		.barra_menus > ul{
 		display:flex;
 		list-style-type: none;
-		padding: 0 10px;
+		padding: 0 0px;
 		}
 		.barra_menus > ul > li{
 		padding: 0 20px;
@@ -127,12 +129,26 @@
 		font-weight:300;
 		}
 		.barra_menus > ul > li:hover{
-		color: blue;
+		color: #007fff;
 		font-size: 20px;
 		font-weight:300;
 		}
 		.footer{
-		padding: 0 20px; }
+		padding: 0 20px; 
+		}
+		.footer > button{
+		background-color:#007fff;
+		font-size: 18px;
+		color: white;
+		border: none;
+		cursor: pointer;
+		border-radius: 0px;
+		margin: 5px;
+		}
+		.footer > button > a{
+		text-decoration: none;
+		color: #fff;
+		}
     </style>
 </head>
 <body>
@@ -187,6 +203,18 @@
       <button><a href="../">Voltar</a></button>
       <button id="formatar">Formatar</button>
       <button id="button">salvar</button>
+	   <select id="menu_tema" onChange="mudaTemas()">
+	   <option value="dracula">Dracula</option>
+		<option value="tomorrow_night">Tema Dark</option>
+		<option value="github">Tema claro</option>
+	    <option value="vibrant_ink">Dark City</option>
+		<option value="terminal">Terminal</option>
+  </select>
+   <select id="menu_linguage" onChange="mudaLinguagem()">
+	   <option value="javascript">Javascrip</option>
+		<option value="css">CSS</option>
+		<option value="html">html</option>
+		</select>
 	</div>
 	</div>
 	</div>
@@ -200,7 +228,7 @@
 	   <div class="campo_nome_u">
 	  <p class="nome_baixar_arq">Nome do Arquivo:
        </p>
-	  <input id="nome_arquivo" value="index.html"></input>
+	  <input id="nome_arquivo" value="index.html" type="text" alt="Informe o nome do arquivo e o tipo, Ex.: index.html" required></input>
 	  </div>
 	  <textarea id="textarea" type="textarea"></textarea>
 	  <button id="salvar_final">Salvar</button>
@@ -215,12 +243,28 @@
 
 var editor = ace.edit("editor");
 
-    document.getElementById('editor').style.fontSize = '16px';
-   
-    editor.setTheme("ace/theme/guithub")
-	
+    document.getElementById('editor').style.fontSize = '18px';
     
+	editor.setTheme("ace/theme/dracula");
+	
+	function mudaTemas() {
+	var menu = document.getElementById("menu_tema");
+	var cor = menu.options[menu.selectedIndex].value;
+	var link = `ace/theme/${cor}`;
+	return editor.setTheme(link);
+	console.log(link)
+	}
+	mudaTemas();
+  
     editor.session.setMode("ace/mode/javascript");
+	function mudaLinguagem() {
+	var menu = document.getElementById("menu_linguage");
+	var lingua = menu.options[menu.selectedIndex].value;
+	var linkLing = `ace/mode/${lingua}`;
+	return editor.session.setMode(linkLing);
+	console.log(linkLing)
+	}
+	mudaLinguagem();
     
     editor.session.setTabSize(4);
     
@@ -244,7 +288,7 @@ var editor = ace.edit("editor");
 	  //salve arquivo
 	   function download(content, fileName, contentType) {
           var a = document.createElement("a");
-          var file = new Blob([content], {type: contentType + encodeURIComponent(content)});
+          var file = new Blob([content], {type: contentType});
           a.href = URL.createObjectURL(file);
           a.download = fileName;
           a.click();
@@ -253,20 +297,20 @@ var editor = ace.edit("editor");
 		//nome do arquivo na entrada
 		//var nomeFile = document.getElementById("nome_arquivo").value;
 		//função para biaxar o arquivo
-	var textoSave = editor.getValue();
-	//var textarea = document.getElementById("textarea");
-    var button = document.getElementById("button");
+		
+	var textarea = document.getElementById("textarea");
+    var button = document.getElementById("salvar_final");
  
     button.addEventListener("click", function() {
-	var textoSave = editor.getValue();
+	if(document.getElementById("nome_arquivo").value !== ""){
       if( confirm("Deseja salvar o Codigo?")){
-      var content =  textoSave;
-      var fileName = "talilo.txt";
-      var contentType = "text/plain";
+      var content =  textarea.value;
+      var fileName = document.getElementById("nome_arquivo").value;
+      var contentType = "text/html";
       download(content, fileName, contentType);
-	
+	  document.getElementById("textarea").value = "";
     }else{alert("Cancelado!")}
-    });
+    }else{alert("Informe o nome do arquivo e o tipo, Ex.: index.html")}});
 	
 	// ativar pagina oculta para salvar arquivo
 
@@ -274,16 +318,16 @@ var editor = ace.edit("editor");
 	
 	
 	buttonFecha.addEventListener("click", function(){
-	console.log("cluclou");
-	var telaExporte = document.getElementById("exportar");
+	console.log("cliclou");
+	if(confirm("deseja sair sem salvar?")){var telaExporte = document.getElementById("exportar");
 	telaExporte.setAttribute("id", "fecha_exportar");
 	
-	})
+	}})
 	
 	var buttonSalvaEx = document.getElementById("salvar_exporte");
 	
 	buttonSalvaEx.addEventListener("click", function(){
-	console.log("cluclou");
+	console.log("cliclou");
 	var telaSalvaExporte = document.getElementById("fecha_exportar");
 	telaSalvaExporte.setAttribute("id", "exportar");
 	
