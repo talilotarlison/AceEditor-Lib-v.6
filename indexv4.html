@@ -132,7 +132,7 @@
 		padding: 0 20px; 
 		}
 		
-		.footer > button{
+		.footer > button, #homebtn2{
 		background-color:#007fff;
 		font-size: 18px;
 		color: white;
@@ -142,10 +142,13 @@
 		margin: 5px;
 		}
 		
-		.footer > button > a{
+		.footer > button > a, #homebtn2{
 		text-decoration: none;
 		color: #fff;
 		cursor: pointer;
+		}
+		.abrir{
+		display: inline;
 		}
 		
     </style>
@@ -200,8 +203,12 @@
     </div>
 	<div class="footer">
       <button><a href="../">Voltar</a></button>
+	  <input type="button" id="homebtn2" onclick="window.location.href = 'index.html';" value="Home">
       <button id="formatar">Formatar</button>
       <button id="button">salvar</button>
+	  <p class="abrir">Abrir:</p>
+	  <input type="file" id="openbtn" onchange="openCode(this.files)" value="Open">
+        <label class="abrir">Tema:</label>
 	   <select id="menu_tema" onChange="mudaTemas()">
 	   <option value="dracula">Dracula</option>
 		<option value="tomorrow_night">Tema Dark</option>
@@ -209,6 +216,7 @@
 	    <option value="vibrant_ink">Dark City</option>
 		<option value="terminal">Terminal</option>
   </select>
+   <label class="abrir">Liguagem:</label>
    <select id="menu_linguage" onChange="mudaLinguagem()">
 	   <option value="javascript">Javascrip</option>
 		<option value="css">CSS</option>
@@ -230,7 +238,7 @@
        </p>
 	  <input id="nome_arquivo" value="index.html" type="text" alt="Informe o nome do arquivo e o tipo, Ex.: index.html" required></input>
 	  </div>
-	  <p class="nome_baixar_arq">Informe o nome do arquivo e o tipo,<b>Ex.: index.html, index.css ou index.js</b></p>
+	  <p class="nome_baixar_arq">Informe o nome do arquivo e o tipo.<b>Ex.: index.html, index.css ou index.js</b></p>
 	  <button id="salvar_final">Salvar</button>
 	    </div>
 	  
@@ -336,8 +344,26 @@ var editor = ace.edit("editor");
 	telaSalvaExporte.setAttribute("id", "exportar");
 	
 	})
+ //Open file in Ace editor
+ //https://stackoverflow.com/questions/59004560/how-can-i-open-a-file-into-ace-text-editor
  
+  function openCode(files) {
+                var file = files[0]
+                if (!file) return;
+                var modelist = ace.require("ace/ext/modelist")
+                var modeName = modelist.getModeForPath(file.name).mode 
+                editor.session.setMode(modeName)
+                reader = new FileReader();
+                reader.onload = function() {
+                    editor.session.setValue(reader.result)
+                }  
+                reader.readAsText(file) 
+            }
      
 	</script>
+	
 	<script src="https://kit.fontawesome.com/32a7e6bf5d.js" crossorigin="anonymous"></script>
+	
+	<script src="http://ajaxorg.github.io/ace-builds/src/ext-modelist.js" type="text/javascript" charset="utf-8"></script>
+        <script>
 </html>
