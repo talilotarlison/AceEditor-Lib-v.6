@@ -3,7 +3,7 @@
 
 #  Ace Editor
 ### EDITOR DE CODIGO ONLINE by Talilo
-![preview](view.jpg)
+![preview](view.png)
 
 >Meu Portfólio Completo, com mudança de tema
 
